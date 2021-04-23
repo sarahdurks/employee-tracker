@@ -1,12 +1,13 @@
-DROP DATABASE IF EXISTS myData;
-CREATE database myData;
-USE myData;
+DROP DATABASE IF EXISTS db;
+CREATE database db;
+USE db;
+
 
 -- -----------------------------------------------------
 -- Table `department`
 -- -----------------------------------------------------
 CREATE TABLE department (
-  id INTEGER NOT NULL auto_increment PRIMARY KEY,
+  id INTEGER NOT NULL IDENTITY(1,1) PRIMARY KEY,
   name VARCHAR(30)
 );
 
@@ -15,7 +16,7 @@ CREATE TABLE department (
 -- Table `role`
 -- -----------------------------------------------------
 CREATE TABLE role (
-  id INTEGER NOT NULL auto_increment PRIMARY KEY,
+  id INTEGER NOT NULL IDENTITY(1,1) PRIMARY KEY,
   title VARCHAR(30),
   salary DECIMAL,
   department_id INTEGER,
@@ -27,7 +28,7 @@ CREATE TABLE role (
 -- Table `employee`
 -- -----------------------------------------------------
 CREATE TABLE employee (
-  id INTEGER NOT NULL auto_increment PRIMARY KEY,
+  id INTEGER NOT NULL IDENTITY(1,1) PRIMARY KEY,
   first_name VARCHAR(30),
   last_name VARCHAR(30),
   role_id INTEGER,
