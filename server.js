@@ -2,31 +2,23 @@
 // Dependencies
 // =============================================================
 const inquirer = require("inquirer")
-const cTable = require('console.table');
+const consoleTable = require('console.table');
 const mysql = require('mysql2');
-const PORT = process.env.PORT || 3006;
 
 // Connect to database
-const db = mysql.createConnection(
-  {
+// =============================================================
+const connection = mysql.createConnection({
     host: 'localhost',
+    port: 3306,
     user: 'root',
     password: 'password',
-    database: 'inventory_db'
-  },
-  console.log(`Connected to the db database.`)
-);
-
-// Query database
-
-/*db.query(`DELETE FROM books WHERE id = ?`, deletedRow, (err, result) => {
-  if (err) {
-    console.log(err);
-  }
-  console.log(result);
+    database: 'db'
 });
-*/
-// Default response for any other request (Not Found)
+
+connection.connect(err => {
+    if (err) throw err;
+    prompt();
+});
 
 // Choices
 // =============================================================
@@ -37,10 +29,10 @@ async function mainAppPrompt() {
             message: "What are you trying to do? See options below.",
             name: "selectAction",
             choices: [
-                "Add a new department", // addNewDepartment()
-                "Add a new employee", //addNewEmployee()
-                "Add a new role", // addRole()
-                "Update employee role", //updateRole
+                "Add a new department",
+                "Add a new employee", 
+                "Add a new role",
+                "Update employee role", 
                 "View all employees",
                 "View all employees by department",
                 "View all departments",
@@ -51,15 +43,52 @@ async function mainAppPrompt() {
         }])
 }
 
-
+async function askUser() {
+    let endUser = false;
+    while (!endUser) {
+        const prompt = await mainAppPrompt();
+        switch (prompt.action) {
+            case 'Add a new department': {
+                let newDepartment = await addNewDepartmentData();
+                await addNewDepartment(newDepartment);
+                break; 
+            }
+            case 'Add a new employee': {
+                let newEmployee = await getNewEmployeeData();
+                await addNewEmployee(newEmployee);
+                break;
+            }
+            case 'Add a new role': {
+                let newRole = await getNewRoleData();
+                await addRole(newRole);
+                break;
+            }
+    
+            case 'Update employee role': {
+                let employee = await getUpdateRoleData();
+                await updateRole(employee);
+                break;
+            }
+            case 'View all employees': {
+                await viewEmployees();
+                break;
+            }
+            case 'View all employees by department': {
+                await viewByDepartment();
+                break;
+            }
+            case 'View all departments': {
+                await viewDepartments();
+                break;
+            }
+            case 'View all roles': {
+                await viewRoles();
+                break;
+            }
+        };
+}
 // Add a department
 // =============================================================
-async function addNewDepartment(departmentInfo) {
-    let departmentName = departmentInfo.departmentName;
-    let query = 'INSERT into department (name) VALUES (?)';
-    let args = [departmentName];
-    const rows = await myData.query(query, args);
-}
 
 async function addNewDepartmentData() {
     return inquirer.prompt([{
@@ -68,16 +97,14 @@ async function addNewDepartmentData() {
         message: "What is the name of the new department?",
     }])
 }
-async function getDepartments() {
-    let query = "SELECT name FROM department";
-    const rows = await myData.query(query);
-    let departments = [];
-    for (const row of rows) {
-        departments.push(row.names);
-    }
-    return departments;
+async function addNewDepartment(departmentInfo) {
+    let departmentName = departmentInfo.departmentName;
+    let query = 'INSERT into department (name) VALUES (?)';
+    let args = [departmentName];
+    const rows = await myData.query(query, args);
+    if (err) throw err;
+    console.log('New department has successfully been added.')
 }
-
 
 // Add a new Employee
 // =============================================================
@@ -87,6 +114,8 @@ async function addNewEmployee(employeeInfo) {
     let query = "INSERT into employee (first_name, role_id, manager_id) VALUES (?, ?, ?)";
     let args = [employeeInfo.first_name, employeeInfo.last_name, roleId, managerId];
     const rows = await myData.query(query, args);
+    if (err) throw err;
+    console.log('New employee has been successfully added.')
 }
 
 async function getRoleId(roleName) {
@@ -130,24 +159,6 @@ async function getNewEmployeeData() {
         }
     ])
 }
-
-// Add a new Role
-// =============================================================
-async function addRole(roleInfo) {
-    let departmentId = await getDepartmentId(roleInfo.departmentName);
-    let salary = roleInfo.salary;
-    let title = roleInfo.roleName;
-    let query = 'INSERT into role (title, salary, department_id) VALUES (?, ?, ?)';
-    let args = [title, salary, departmentId];
-    const rows = await myData.query(query, args);
-}
-// ??getnew role data
-async function getDepartmentId(departmentName) {
-    let query = "SELECT * FROM role WHERE department.name=?"
-    let args = [departmentName];
-    const rows = await myData.query(query, args);
-    return rows[0].id;
-
 async function getRoles() {
     let query = "SELECT title FROM role";
     const rows = await myData.query(query);
@@ -156,6 +167,23 @@ async function getRoles() {
         roles.push(row.title);
     }
     return roles;
+}
+// =============================================================
+async function addRole(roleInfo) {
+    let departmentId = await getDepartmentId(roleInfo.departmentName);
+    let salary = roleInfo.salary;
+    let title = roleInfo.roleName;
+    let query = 'INSERT into role (title, salary, department_id) VALUES (?, ?, ?)';
+    let args = [title, salary, departmentId];
+    const rows = await myData.query(query, args);
+
+async function getDepartmentId(departmentName) {
+    let query = "SELECT * FROM role WHERE department.name=?"
+    let args = [departmentName];
+    const rows = await myData.query(query, args);
+    return rows[0].id;
+
+
 }
 // Update a role
 // =============================================================
@@ -167,7 +195,7 @@ async function updateRole(employeeInfo) {
     let args = [roleId, employee[0], employee[1]];
     const rows = await myData.query(query, args);
 }
-// question series
+
 async function getUpdateRoleData() {
     const employees = await getEmployeeNames()
     const roles = await getRoles();
@@ -185,7 +213,16 @@ async function getUpdateRoleData() {
         }
     ])
 }
-
+//view department
+async function viewDepartments() {
+    let query = "SELECT name FROM department";
+    const rows = await myData.query(query);
+    let departments = [];
+    for (const row of rows) {
+        departments.push(row.names);
+    }
+    return departments;
+}
 
 // View all employees
 // =============================================================
@@ -206,7 +243,6 @@ async function viewByDepartment() {
 }
 // View all employee roles
 // =============================================================
-
 async function viewRoles() {
     let query = "SELECT * FROM employee";
     const rows = await myData.query(query);
@@ -220,7 +256,7 @@ async function removeEmployee(employeeInfo) {
     let query = 'DELETE from employee WHERE employee.first_name=? AND employee.last_name=?';
     let args = [employeeName[0], employeeName[1]];
     const rows = await myData.query(query, args);
-//questions
+]
     async function removeEmployeeData() {
         const employees = await getEmployeeNames();
         return inquirer.prompt([{
@@ -240,94 +276,11 @@ async function removeEmployee(employeeInfo) {
         return employeeNames;
     }
    // redundancy? function getFullName(fullName) {
-        let employee = fullName.split("");
+       //let employee = fullName.split("");
        
-        return [first_name.trim(), last_name];
+       // return [first_name.trim(), last_name];
     }
-    
-// I'm done
-// =============================================================
 
-async function askUser() {
-    let endUser = false;
-    while (!endUser) {
-        const prompt = await mainAppPrompt();
-        switch (prompt.action) {
-            
-// Add a department
-// =============================================================
-            case 'Add a new department': {
-                let newDepartment = await getDepartments();
-                await addNewDepartmentData(newDepartment);
-                break;
-            }
-
-// Add a new Employee
-// =============================================================
-            case 'Add a new employee': {
-                let newEmployee = await getNewEmployeeData();
-                await addNewEmployee(newEmployee);
-                break;
-            }
-      
-// Add new role
-// =============================================================
-            case 'Add a new role': {
-                let newRole = await getNewRoleData();
-                await addRole(newRole);
-                break;
-            }
-
-// Update new role
-// =============================================================      
-            case 'Update employee role': {
-                let employee = await getUpdateRoleData();
-                await updateRole(employee);
-                break;
-            }
-// View all employees
-// =============================================================
-            case 'View all employees': {
-                await viewEmployees();
-                break;
-            }
-// View by department
-// =============================================================
-            case 'View all employees by department': {
-                await viewByDepartment();
-                break;
-            }
-
-  
-// May need to add a query in
-// =============================================================          
-         //???
-            case 'View all departments': {
-                await viewDepartments();
-                break;
-            }
-
-// View roles
-// =============================================================
-            case 'View all roles': {
-                await viewRoles();
-                break;
-
-// Remove employees
-// =============================================================
-           /* case 'Remove employee': {
-                const employee = await removeEmployeeData();
-                await removeEmployee(employee);
-                break;
-            }*/
-
-// I'm done
-// =============================================================
-           /* case "I'm done": {
-                //
-            }
-            default:
-                console.log(`Something went wrong.`);*/
         }
         
     }
