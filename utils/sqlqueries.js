@@ -20,7 +20,7 @@ addRole:
 
 // =============================================================
 module.exports = {
-// Department JS
+// Department JS Queries
 // =============================================================
 getAllDepartments:
 `SELECT id AS department_id, 
@@ -31,14 +31,13 @@ addDepartment:
 `INSERT INTO department(dep_name) 
 VALUES(?);`,
 
-
 getEmployeesByDepartment:
 `SELECT * FROM department 
 WHERE dep_name = ?;`,
 
 
 // =============================================================
-// Employee JS
+// Employee JS Queries
 // =============================================================
 getAllEmployees:
 `SELECT employee.id AS employee_id, 
@@ -92,9 +91,8 @@ deleteEmployeeById:
 `DELETE FROM employee 
 WHERE id = ?;`,
 
-
 // =============================================================
-// Roles JS
+// Roles JS Queries
 // =============================================================
 getAllRoles:
 `SELECT role.id AS role_id, 
@@ -110,7 +108,7 @@ WHERE title = ?;`,
 
 addRole:
 `INSERT INTO role(title, salary, department_id) 
-VALUES(?, ?, ?);`,
+VALUES(?, ?, ?);`
 
 };
 

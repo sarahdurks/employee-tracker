@@ -1,9 +1,9 @@
 // ============================================================
-// Dependencies
+// EMPLOYEE DEPENDENCIES
 // =============================================================
-const { Employee } = require("../utils/constructors");
+ const { Employee } = require("../utils/constructors");
  const consoleTable = require("console.table");
- const databasePool = require('../utils/connect');
+ const databasePool = require("../utils/connect");
  const sql = require("../utils/sqlqueries");
 
  // ============================================================
@@ -45,7 +45,7 @@ const { Employee } = require("../utils/constructors");
  // ============================================================
  // Get Managers
  // ============================================================
- async function getManagers() {
+ async function getManagerList() {
     try {
        let data = await databasePool.query(sql.getAllManagers);
        let managerList = [];
@@ -62,7 +62,7 @@ const { Employee } = require("../utils/constructors");
  // ============================================================
  // Add New Employee
  // =============================================================
- const addNewEmployee = async response => {
+ const addEmployee = async response => {
     let manager_id;
     if(response.manager_name === 'None') {
        manager_id = null;
@@ -161,9 +161,9 @@ const { Employee } = require("../utils/constructors");
  module.exports = {
     getEmployeeList,
     getEmployees,
-    getManagers,
+    getManagerList,
     getEmployeesByDepartment,
-    addNewEmployee,
+    addEmployee,
     queryEmployeeName,
     queryEmployeeById,
     deleteEmployee,

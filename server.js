@@ -3,7 +3,11 @@
 // DEPENDENCIES
 // =============================================================
 
+// Inquirer 
+const inquirer = require("inquirer");
+
 // Department Logic
+
 const {
    getDepartmentList,
    addNewDepartment,
@@ -15,7 +19,6 @@ const {
    getEmployeeList,
    getEmployees,
    getManagerList,
-   getEmployeesByDepartment,
    addEmployee,
    queryEmployeeName,
    queryEmployeeById,
@@ -30,11 +33,6 @@ const {
    queryRoles,
    addRole
 } = require("./config/roles");
-const inquirer = require("inquirer");
-/*
-https://stackoverflow.com/questions/33589571/module-exports-that-include-all-functions-in-a-single-line
-https://stackoverflow.com/questions/31354559/using-node-js-require-vs-es6-import-export?rq=1hello.js
-*/
 
 // =============================================================
 // Inquirer Series
@@ -45,7 +43,7 @@ const databasePrompt = async () => {
    let employees = await getEmployeeList();
    let departments = await getDepartmentList();
    let roles = await getRoleList();
-   //main menu
+   //main menu 
    inquirer.prompt([{
             type: "list",
             message: "What are you trying to do? Choose from options below.",
@@ -70,7 +68,7 @@ const databasePrompt = async () => {
             message: "Please enter a name for the new department:",
             when: ({
                choice
-            }) => choice === "Add a new department",
+            }) => choice === "Add a new department", // future to do: add logic check if already a dept?
             validate: inputDepartmentName => {
                if(inputDepartmentName) {
                   return true;
