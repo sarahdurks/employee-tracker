@@ -1,11 +1,32 @@
 // Dependencies
 
-const department = require('./config/department');
-const employees = require('./config/employees');
-const roles = require('./config/roles');
+//const department = require("./config/department");
+//const employees = require("./config/employees");
+//const roles = require("./config/roles");
 const inquirer = require("inquirer");
 
+/*//
+// 
+https://stackoverflow.com/questions/33589571/module-exports-that-include-all-functions-in-a-single-line
+https://stackoverflow.com/questions/31354559/using-node-js-require-vs-es6-import-export?rq=1hello.js
+function hello1() {
+   return 'hello1'
+ }
+ function hello2() {
+   return 'hello2'
+ }
+ export { hello1, hello2 }
+ 
+ // app.js
+ import { hello1, hello2 } from './hello'
+ hello1()  // returns hello1
+ hello2()  // returns hello2
 
+
+
+
+ const Foo = require('./foo').default;
+*/
 // Question Series / Logic
 // =============================================================
 const databasePrompt = async() => {

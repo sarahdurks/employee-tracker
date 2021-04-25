@@ -73,4 +73,4 @@ const addRole = async response => {
 
 // Export department functions 
 // ============================================================
-module.exports = { getRoleList, getRoles, queryRoles, addRole }
+//module.exports = { getRoleList, getRoles, queryRoles, addRole }
