@@ -1,69 +1,78 @@
-// Dependencies
 
-//const department = require("./config/department");
-//const employees = require("./config/employees");
-//const roles = require("./config/roles");
+// =============================================================
+// DEPENDENCIES
+// =============================================================
+
+// Department List
+const {
+   getDepartmentList,
+   addNewDepartment,
+   getAllDepartments
+} = require("./config/department");
+
+// Employee Logic
+const {
+   getEmployeeList,
+   getEmployees,
+   getManagerList,
+   getEmployeesByDepartment,
+   addEmployee,
+   queryEmployeeName,
+   queryEmployeeById,
+   deleteEmployee,
+   updateEmployeeRole
+} = require("./config/employees");
+
+// Role Logic
+const {
+   getRoleList,
+   getRoles,
+   queryRoles,
+   addRole
+} = require("./config/roles");
 const inquirer = require("inquirer");
-
-/*//
-// 
+/*
 https://stackoverflow.com/questions/33589571/module-exports-that-include-all-functions-in-a-single-line
 https://stackoverflow.com/questions/31354559/using-node-js-require-vs-es6-import-export?rq=1hello.js
-function hello1() {
-   return 'hello1'
- }
- function hello2() {
-   return 'hello2'
- }
- export { hello1, hello2 }
- 
- // app.js
- import { hello1, hello2 } from './hello'
- hello1()  // returns hello1
- hello2()  // returns hello2
-
-
-
-
- const Foo = require('./foo').default;
 */
-// Question Series / Logic
+
 // =============================================================
-const databasePrompt = async() => {
+// Inquirer Series
+// =============================================================
+const databasePrompt = async () => {
    // aggregate choice lists to display to user
    let managers = await getManagerList();
    let employees = await getEmployeeList();
    let departments = await getDepartmentList();
    let roles = await getRoleList();
-   
    //main menu
    inquirer.prompt([{
             type: "list",
             message: "What are you trying to do? Choose from options below.",
-            name: "action",
+            name: "choice",
             choices: [
-                "Add a new department",
+                "Add a new department", // inputDepartmentName
+                "Add a new role", // inputTitle,  inputSalary, inputFirstName, inputLastName
                 "Add a new employee",
-                "Add a new role",
                 "Update employee role",
                 "View all employees",
-                "View all employees by department",
                 "View all departments",
                 "View all employee roles",
+                "View all employees by department",
                 "Remove employee",
                 "I'm done"
             ]
         },
          
-         {// Add department
+         { // Add a new department
             type: "input",
             name: "department_name",
             message: "Please enter a name for the new department:",
             when: ({
-               action
-            }) => action === "Add a new department",
-            validate: departmentName => {
-               if(departmentName) { //better approach to this?
+               choice
+            }) => choice === "Add a new department",
+            validate: inputDepartmentName => {
+               if(inputDepartmentName) {
                   return true;
                } else {
                   console.log("Please enter a name for the new department.");
@@ -76,10 +85,10 @@ const databasePrompt = async() => {
             name: "title",
             message: "Please enter a title for the new role.",
             when: ({
-               action
-            }) => action === "Add a new role",
-            validate: title => {
-               if(title) {
+               choice
+            }) => choice === "Add a new role",
+            validate: inputTitle => {
+               if(inputTitle) {
                   return true;
                } else {
                   console.log("Please enter a job title for the new role.");
@@ -87,15 +96,15 @@ const databasePrompt = async() => {
                }
             }
      },
-         {// Add new role salary
+         { // Add new role salary
             type: "number", // may need a better solution w decimals, think this has to match database
             name: "salary",
-            message: "Enter a salary for this new role:",
+            message: "Enter a salary for this new role. Follow format $50000.00",
             when: ({
-               action
-            }) => action === "Add a role",
-            validate: salary => {
-               if(salary) {
+               choice
+            }) => choice === "Add a role",
+            validate: inputSalary => {
+               if(inputSalary) {
                   return true;
                } else {
                   console.log("Please enter a valid number for salary.");
@@ -104,14 +113,14 @@ const databasePrompt = async() => {
             }
      },
          { // Add new employee first name
-            type: "input", 
+            type: "input",
             name: "first_name",
-            message: "Enter the employee's first name:",
+            message: "Enter the new employee's first name:",
             when: ({
-               action
-            }) => action === "Add an employee",
-            validate: firstName => {
-               if(firstName) {
+               choice
+            }) => choice === "Add an employee",
+            validate: inputFirstName => {
+               if(inputFirstName) {
                   return true;
                } else {
                   console.log("Please enter the employee's first name.");
@@ -119,15 +128,15 @@ const databasePrompt = async() => {
                }
             }
      },
-         {// Add new employee last name
-            type: "input", 
+         { // Add new employee last name
+            type: "input",
             name: "last_name",
-            message: "Enter the employee's last name:",
+            message: "Enter the new employee's last name:",
             when: ({
-               action
-            }) => action === "Add an employee",
-            validate: lastName => {
-               if(lastName) {
+               choice
+            }) => choice === "Add an employee",
+            validate: inputLastName => {
+               if(inputLastName) {
                   return true;
                } else {
                   console.log("Please enter the employee's last name.");
@@ -136,33 +145,33 @@ const databasePrompt = async() => {
             }
      },
          
-         {// Select department
+         { // Select department
             type: "list",
             name: "department_name",
             message: "Select the department:", // reuse 
             when: ({
-               action
-            }) => action === "Add a new role" || action === "View employees by department",
+               choice
+            }) => choice === "Add a new role" || choice === "View employees by department",
             choices: [...departments]
      },
          
          
-         {// Add role for new employee
+         { // Add role for new employee
             type: "list",
             name: "role_title",
             message: "Select the new Employee's role",
             when: ({
-               action
-            }) => action === "Add an employee",
+               choice
+            }) => choice === "Add an employee",
             choices: [...roles],
      },
-         {// Select manager name
+         { // Select manager name
             type: "list",
             name: "manager_name",
             message: "Select employee's Manager:",
             when: ({
-               action
-            }) => action === "Add an employee",
+               choice
+            }) => choice === "Add an employee",
             choices: [...managers]
      },
          { // Select employee to update role
@@ -170,22 +179,22 @@ const databasePrompt = async() => {
             name: "employee_name",
             message: "Select the employee you'd like to update role data for",
             when: ({
-               action
-            }) => action === "Update an employee's role",
+               choice
+            }) => choice === "Update an employee's role",
             choices: [...employees],
      },
-         {// Update role for selected employee
+         { // Update role for selected employee
             type: "list",
             name: "job_title",
             message: "Select the updated role for this employee",
             when: ({
-               action
-            }) => action === "Update an employee's role",
+               choice
+            }) => choice === "Update an employee's role",
             choices: [...employees],
      }
    ]) // Exit route
       .then(response => {
-         if(response.action = "I'm done") {
+         if(response.choice = "I'm done") {
             userPath(response);
             return true;
          } else {
@@ -193,59 +202,62 @@ const databasePrompt = async() => {
          }
       });
 };
+
+// addNewDepartment // queryDepartment
+// addEmployee // queryEmployeeName
+// addRole // queryRoles
+// updateEmployeeRole // queryEmployeeById
+// getEmployees
+// getEmployeesByDepartment
+// getAllDepartments
+// deleteEmployee
+// getRoles
+
+// =============================================================
+// CASE LOGIC
+// =============================================================
 databasePrompt();
-
-// If/then function logic
 const userPath = response => {
-   switch(response.action) {
-
-   case "Add a new department": 
+   switch(response.choice) {
+   case "Add a new department":
       addNewDepartment(response)
          .then(response => queryDepartment(response))
          .then(() => databasePrompt());
       break;
-   
-   case "Add a new employee": 
+   case "Add a new employee":
       addEmployee(response)
          .then(response => queryEmployeeName(response))
          .then(() => databasePrompt());
       break;
-   
-   case "Add a new role": 
+   case "Add a new role":
       addRole(response)
          .then(response => queryRoles(response))
          .then(() => databasePrompt());
       break;
-  
-   case "Update employee role": 
-     updateEmployeeRole(response)
+   case "Update employee role":
+      updateEmployeeRole(response)
          .then(response => queryEmployeeById(response))
          .then(() => databasePrompt());
       break;
-   
-   case "View all employees": 
+   case "View all employees":
       getEmployees(response)
          .then(() => databasePrompt());
       break;
-   
-   case "View all employees by department": 
+   case "View all employees by department":
       getEmployeesByDepartment(response)
          .then(() => databasePrompt());
       break;
-   
-   case "View all departments": 
+   case "View all departments":
       getAllDepartments(response)
-   .then(() => databasePrompt());
-   break;
-   //
-   case "Remove employee": 
+         .then(() => databasePrompt());
+      break;
+   case "Remove employee":
       deleteEmployee(response)
-   .then(() => databasePrompt());
-   break;
-   
-   case "View all roles": 
+         .then(() => databasePrompt());
+      break;
+   case "View all roles":
       getRoles(response)
-      .then(() => databasePrompt());
+         .then(() => databasePrompt());
       break;
    }
 };
