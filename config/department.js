@@ -7,14 +7,13 @@ const sql = require("../utils/sqlqueries");
 
 
 
-
 async function getDepartmentList() {
     try {
-       let departmentQuery = await databasePool.query(sql.getAllDepartments)
+       let departmentQuery = await databasePool.query(sql.getAllDepartments);
        let departmentNames = [];
        let data = departmentQuery[0];
        for(row in data) {
-          departmentNames.push(`{data[row].department_id} ${data[row].department_name}`);
+          departmentNames.push(`${data[row].department_id} ${data[row].department_name}`);
        }
        return departmentNames;
     } catch (err) {
@@ -24,7 +23,7 @@ async function getDepartmentList() {
 
  // Add a New Department
 // =============================================================
- const addNewDepartment  = async () => {
+ const addNewDepartment  = async response  => {
     try {
        await databasePool.query(sql.addDepartment, response.department_name);
     } catch (err) {
@@ -48,19 +47,19 @@ async function getDepartmentList() {
        console.table(departmentList);
        return departmentNames;
     } catch (err) {
-       console.log(`Was not able to get all departments. Error ${err}.`);
+       console.log("Something went wrong with returning departments.");
     }
  };
 
 // Delete Department
 // =============================================================
- const deleteDepartment  = async () => {
+ const deleteDepartment  = async response => {
          try {
-             let department_id = parseInt(response.department_name.split(" ")[0]);
+             let department_id = parseInt(response.department_name.split(' ')[0]);
              let deleteDepartmentAction = await databasePool.query(sql.deleteById, department_id);
               console.log(deleteDepartmentAction[0]);
               } catch (err) {
-               console.log(`Unable to delete Department. Error: ${err}.`);
+               console.log("Unable to delete Department.");
                       }
                     };
 
@@ -68,6 +67,6 @@ async function getDepartmentList() {
 
 // Export department functions 
 // ============================================================
- module.exports =  {getDepartmentList, addNewDepartment, getAllDepartments, deleteDepartment };
+ module.exports =  { getDepartmentList, addNewDepartment, getAllDepartments, deleteDepartment };
 
 

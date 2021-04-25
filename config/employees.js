@@ -8,7 +8,6 @@ const databasePool = require('../utils/connect');
 const sql = require("../utils/sqlqueries");
 
 
-eleteEmployee
  // Get List of Employees
 // =============================================================
 async function getEmployeeList() {
@@ -49,7 +48,7 @@ async function getEmployeeList() {
 
 // Get Managers
 // =============================================================
-const getManagers = async () => {
+async function getManagers() {
     try {
        let data = await databasePool.query(sql.getAllManagers);
        let managerList = [];
@@ -135,26 +134,6 @@ const getManagers = async () => {
     }
  };
 
-
- // Update Employee Manager
-// =============================================================
- const updateEmployeeManager = async response => {
-    try {
-       let manager_id;
-       if(response.manager_name === 'None') {
-          manager_id = null;
-       } else {
-          manager_id = parseInt(response.manager_name.split(' ')[0]);
-       }
-       let employee_id = (response.employee_name.split(' ')[0]);
-       await databasePool.query(sql.updateManager, [manager_id, employee_id]);
-       return employee_id;
-    } catch (err) {
-       console.log(`Issue in updating employee manager. Error: ${err}`);
-    }
- };
-
-
  // Update Employee Role
 // =============================================================
  const updateEmployeeRole = async response => {
@@ -168,20 +147,7 @@ const getManagers = async () => {
     }
  };
 
- // Show Employees by Manager
-// =============================================================
- const viewByManager = async response => {
-    let employeeList = [];
-    for(row in response) {
-       employeeList.push(new EmployeebyManager(response[row].employee_id, response[row].first_name, response[row].last_name, response[row].job_title, response[row].salary, response[row].manager_name));
-    }
-    if(employeeList.length <= 0) {
-       console.log(`No employees to display by manager.`);
-    } else {
-       console.table(employeeList);
-    }
-
- // SEmployees by department
+ // Employees by department
 // =============================================================
     const getEmployeesByDepartment = async response => {
         try {
@@ -204,7 +170,7 @@ const getManagers = async () => {
     
  // Delete employee
 // =============================================================
- };
+
  const deleteEmployee = async response => {
     try {
        let employee_id = (response.employee_name.split(' ')[0]);
@@ -219,4 +185,4 @@ const getManagers = async () => {
 
 // Export department functions (can i parent these somehow?)
 // ============================================================
-module.exports =  {getEmployeeList, getEmployees, getManagers, getEmployeesbyManager, addNewEmployee, queryEmployeeName, queryEmployeeById, deleteEmployee, updateEmployeeManager, updateEmployeeRole, viewByManager}
+module.exports =  {getEmployeeList, getEmployees, getManagers,  addNewEmployee, queryEmployeeName, queryEmployeeById, deleteEmployee, updateEmployeeManager, updateEmployeeRole, viewByManager}

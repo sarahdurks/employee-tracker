@@ -40,8 +40,6 @@ const getRoles = async () => {
         console.error(`Error in executing Query ${err}`);
     }
 };
-
-getRoleList, getRoles, queryRoles
  // Query Employee Roles
 // =============================================================
 const queryRoles = async response => {
@@ -73,9 +71,6 @@ const addRole = async response => {
     return response.title;
 };
 
-getRoleList, getRoles, queryRoles, addRole
-
-
-// Export department functions (can i parent these somehow?)
+// Export department functions 
 // ============================================================
-module.exports =  { getRoleList, getRoles, queryRoles, addRole }
+module.exports = { getRoleList, getRoles, queryRoles, addRole }
