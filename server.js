@@ -3,7 +3,7 @@
 // DEPENDENCIES
 // =============================================================
 
-// Department List
+// Department Logic
 const {
    getDepartmentList,
    addNewDepartment,

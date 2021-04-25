@@ -54,3 +54,8 @@ A database was created allowing company users to view and modify information abo
 
 - [Console Table NPM](https://www.npmjs.com/package/console.table)
 - [NPM mySQL](https://www.npmjs.com/package/mysql)
+
+/*
+https://stackoverflow.com/questions/33589571/module-exports-that-include-all-functions-in-a-single-line
+https://stackoverflow.com/questions/31354559/using-node-js-require-vs-es6-import-export?rq=1hello.js
+*/
