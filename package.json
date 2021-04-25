@@ -2,6 +2,7 @@
   "name": "Employee-Tracker",
   "author": "Sarah Durkin",
   "license": "MIT",
+  "type": "module",
   "version": "1.0.0",
   "description": "Employee database with node.js, MySQL.",
   "main": "server.js",

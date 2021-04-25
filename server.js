@@ -1,15 +1,11 @@
 // Dependencies
-// =============================================================
-const inquirer = require("inquirer")
-const Database = require("./utils/connect")
-const consoleTable = require("console.table");
-const mysql = require("mysql2");  
+
 
 // Functions for query types
-import { getRoleList, getRoles, queryRoles, addRole} from ("./config/roles.js");
-import { getEmployeeList, getEmployees, getManagers, getEmployeesbyManager, addNewEmployee, queryEmployeeName, queryEmployeeById, updateEmployeeManager, updateEmployeeRole, viewByManager } from ("./config/employees.js");
-import { getDepartmentList, addNewDepartment, getAllDepartments, queryDepartment } from ("./config/department.js");
-
+const { getRoleList, getRoles, queryRoles, addRole} = require("./config/roles");
+const { getEmployeeList, getEmployees, queryEmployeeName, queryEmployeeById,  updateEmployeeRole } = require("./config/employees");
+const { getDepartmentList, addNewDepartment, getAllDepartments, queryDepartment } = require("./config/department");
+//const inquirer = require('inquirer');
 // TODO SOME MISSING EMPLOYEE LOGIC
 
 
@@ -184,54 +180,54 @@ databasePrompt();
 // If/then function logic
 const userPath = response => {
    switch(response.action) {
-   case "Add a new department": {
+
+   case "Add a new department": 
       addNewDepartment(response)
          .then(response => queryDepartment(response))
          .then(() => databasePrompt());
       break;
-   }
-   case "Add a new employee": {
+   
+   case "Add a new employee": 
       addEmployee(response)
          .then(response => queryEmployeeName(response))
          .then(() => databasePrompt());
       break;
-   }
-   case "Add a new role": {
+   
+   case "Add a new role": 
       addRole(response)
          .then(response => queryRoles(response))
          .then(() => databasePrompt());
       break;
-   }//
-   case "Update employee role": {
+  
+   case "Update employee role": 
      updateEmployeeRole(response)
          .then(response => queryEmployeeById(response))
          .then(() => databasePrompt());
       break;
-   }//
-   case "View all employees": {
+   
+   case "View all employees": 
       getEmployees(response)
          .then(() => databasePrompt());
       break;
-   }//
-   case "View all employees by department": {
+   
+   case "View all employees by department": 
       getEmployeesByDepartment(response)
          .then(() => databasePrompt());
       break;
-   }//
-   case "View all departments": {
+   
+   case "View all departments": 
       getAllDepartments(response)
    .then(() => databasePrompt());
    break;
-   } //
-   case"Remove employee": {
+   //
+   case "Remove employee": 
       deleteEmployee(response)
    .then(() => databasePrompt());
    break;
-   } 
-
-   case "View all roles": {
+   
+   case "View all roles": 
       getRoles(response)
       .then(() => databasePrompt());
       break;
    }
-}
+};

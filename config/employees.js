@@ -219,4 +219,4 @@ const getManagers = async () => {
 
 // Export department functions (can i parent these somehow?)
 // ============================================================
-module.exports =  {getEmployeeList, getEmployees, getManagers, getEmployeesbyManager, addNewEmployee, queryEmployeeName, queryEmployeeById, updateEmployeeManager, updateEmployeeRole, viewByManager}
+module.exports =  {getEmployeeList, getEmployees, getManagers, getEmployeesbyManager, addNewEmployee, queryEmployeeName, queryEmployeeById, deleteEmployee, updateEmployeeManager, updateEmployeeRole, viewByManager}
