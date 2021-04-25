@@ -1,10 +1,11 @@
 
 -- -----------------------------------------------------
--- ALL EMPLOYEE TABLES
+-- CLEARING PAST DATA
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS department;
 DROP TABLE IF EXISTS role;
 DROP TABLE IF EXISTS employee;
+
 
 -- -----------------------------------------------------
 -- Table `department`
@@ -27,7 +28,7 @@ CREATE TABLE role (
   FOREIGN KEY (department_id) REFERENCES department(id)
 );
 
--- -----------------------------------------------------IDENTITY(1,1)
+-- -----------------------------------------------------
 -- Table `employee`
 -- -----------------------------------------------------
 CREATE TABLE employee (
