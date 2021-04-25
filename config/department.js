@@ -2,7 +2,8 @@
 // =============================================================
 // DEPARTMENT DEPENDENCIES
 // =============================================================
-const { Department } = require("../utils/constructors");const consoleTable = require("console.table");
+const { Department } = require("../utils/constructors");
+const consoleTable = require("console.table");
 const databasePool = require("../utils/connect");
 const sql = require("../utils/sqlqueries");
 
