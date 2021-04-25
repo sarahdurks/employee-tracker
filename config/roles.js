@@ -8,7 +8,6 @@ const databasePool = require('../utils/connect');
 const sql = require("../utils/sqlqueries");
 
 
-
  // Get list of roles
 // =============================================================
 async function getRoleList() {
@@ -42,7 +41,7 @@ const getRoles = async () => {
     }
 };
 
-
+getRoleList, getRoles, queryRoles
  // Query Employee Roles
 // =============================================================
 const queryRoles = async response => {
@@ -56,7 +55,7 @@ const queryRoles = async response => {
         }
     }
     catch (err) {
-        console.error(`Issue in performing role search: ${err}`);
+        console.error(`There was a problem in performing role query: ${err}`);
     }
 };
 
@@ -74,3 +73,9 @@ const addRole = async response => {
     return response.title;
 };
 
+getRoleList, getRoles, queryRoles, addRole
+
+
+// Export department functions (can i parent these somehow?)
+// ============================================================
+module.exports =  { getRoleList, getRoles, queryRoles, addRole }
