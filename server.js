@@ -1,17 +1,14 @@
 // Dependencies
 
-
-// Functions for query types
-const { getRoleList, getRoles, queryRoles, addRole} = require("./config/roles");
-const { getEmployeeList, getEmployees, queryEmployeeName, queryEmployeeById,  updateEmployeeRole } = require("./config/employees");
-const { getDepartmentList, addNewDepartment, getAllDepartments, queryDepartment } = require("./config/department");
-//const inquirer = require('inquirer');
-// TODO SOME MISSING EMPLOYEE LOGIC
+const department = require('./config/department');
+const employees = require('./config/employees');
+const roles = require('./config/roles');
+const inquirer = require("inquirer");
 
 
 // Question Series / Logic
 // =============================================================
-async function databasePrompt() {
+const databasePrompt = async() => {
    // aggregate choice lists to display to user
    let managers = await getManagerList();
    let employees = await getEmployeeList();

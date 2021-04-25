@@ -1,5 +1,5 @@
 # employee-tracker
-
+https://requirejs.org/docs/whyamd.html#purposes
 ![Frame 62](https://user-images.githubusercontent.com/77648727/114948310-9792c180-9e03-11eb-9af7-3f7bf901ae05.png)
 
 
