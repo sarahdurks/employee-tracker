@@ -2,10 +2,9 @@
 -- -----------------------------------------------------
 -- CLEARING PAST DATA
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS department;
-DROP TABLE IF EXISTS role;
-DROP TABLE IF EXISTS employee;
-
+DROP DATABASE IF EXISTS employee_database;
+CREATE DATABASE employee_database;
+USE employee_database;
 
 -- -----------------------------------------------------
 -- Table `department`
@@ -20,9 +19,9 @@ CREATE TABLE department (
 -- Table `role`
 -- -----------------------------------------------------
 CREATE TABLE role (
-  id INTEGER NOT NULL AUTO_INCREMENT 
+  id INTEGER NOT NULL AUTO_INCREMENT,
   title VARCHAR(30) NOT NULL,
-  salary DECIMAL(10,2)
+  salary DECIMAL(10,2) NOT NULL,
   department_id INTEGER NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (department_id) REFERENCES department(id)
@@ -32,12 +31,11 @@ CREATE TABLE role (
 -- Table `employee`
 -- -----------------------------------------------------
 CREATE TABLE employee (
-  id INTEGER NOT NULL AUTO_INCREMENT,
+  id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
   first_name VARCHAR(30) NOT NULL,
   last_name VARCHAR(30) NOT NULL,
   role_id INTEGER NOT NULL,
   manager_id INTEGER DEFAULT NULL,
-  PRIMARY KEY (id),
   FOREIGN KEY (role_id) REFERENCES role(id),
   FOREIGN KEY (manager_id) REFERENCES role(id)
 );
