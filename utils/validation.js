@@ -4,9 +4,6 @@ const validate = {
    checkNumber(num) {
       if(validator.isDecimal(num)) return true;
       return "Salary format invalid. Please enter format: 50000.00"; // this is the area of concern. Commas and 0 handling
-   },
-   checkString(str) {
-      return str !== '' || "Please enter a valid text string.";
    }
 };
 module.exports = validate;
