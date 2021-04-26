@@ -5,7 +5,26 @@ const inquirer = require("inquirer");
 const consoleTable = require("console.table");
 const validate = require("./utils/validation");
 const mysql = require('mysql2');
+//
+const chalk = require('chalk');
+const figlet = require('figlet');
+const gradient = require('gradient-string');
+const redToGreen = gradient('red', 'green');
+const str = '■'.repeat(155);
+// var chalkRainbow = require('chalk-rainbow')
+ 
+// chalkRainbow('Awesome rainbow string!')
 
+ 
+// // Standard RGB gradient
+// console.log(redToGreen(str)); 
+ 
+// // Short HSV gradient: red -> yellow -> green
+// console.log(redToGreen(str, {interpolation: 'hsv'}));
+ 
+// // Long HSV gradient: red -> magenta -> blue -> cyan -> green
+// console.log(redToGreen(str, {interpolation: 'hsv', hsvSpin: 'long'})
+//
 const connection = mysql.createConnection({
    host: 'localhost',
    user: 'root',
@@ -18,7 +37,11 @@ const connection = mysql.createConnection({
 
 connection.connect((error) => {
    if (error) throw error
-   console.log("Welcome to the Employee Tracker.");
+   console.log(redToGreen(str, {interpolation: 'hsv', hsvSpin: 'long'}));
+   console.log(figlet.textSync("Welcome to the Employee Tracker."));
+   console.log(redToGreen(str, {interpolation: 'hsv', hsvSpin: 'long'}));
+   console.log(``);
+   console.log(``);
    databasePrompt();
 });
 // =============================================================
@@ -29,8 +52,8 @@ const databasePrompt = () => {
       name: "choices",
       type: "list",
       message: "What are you trying to do? Choose from options below.",
-      choices: 
-      ["Add a new department", 
+      choices: [
+      "Add a new department", 
       "Add a new role", 
       "Add a new employee", 
       "Update employee role", 
@@ -79,7 +102,9 @@ const addDepartment = () => {
    }]).then((answer) => {
       let sqlQuery = `INSERT INTO department(department_name)VALUES (?)`;
       connection.query(sqlQuery, answer.addDepartment, (error, response) => { if (error) throw error;
+         console.log(redToGreen(str, {interpolation: 'hsv', hsvSpin: 'long'}));
          console.log("Department was created successfully.");
+         console.log(redToGreen(str, {interpolation: 'hsv', hsvSpin: 'long'}));
          viewAllDepartments(); // should have new department listed
       });
    });
@@ -105,7 +130,7 @@ const addRole = () => {
         addRoleDetails(answer);
       }
     });
-    const addRoleDetails = (departmentData) => {
+    const addRoleDetails = (roleData) => {
        inquirer.prompt([
           {  type: 'input',
             name: 'newRole',
@@ -121,7 +146,7 @@ const addRole = () => {
             let departmentId;
 
             response.forEach((department) => {
-              if (departmentData.departmentName === department.department_name) {departmentId = department.id;}
+              if (roleData.departmentName === department.department_name) {departmentId = department.id;}
             });
 
             let sqlQuery = `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`;
@@ -191,8 +216,10 @@ const addEmployee = () => {
                   const sqlQuery4 = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`;
                   connection.query(sqlQuery4, criteria, (error) => {
                      if (error) throw error;
+                     console.log(redToGreen(str, {interpolation: 'hsv', hsvSpin: 'long'}));
                      console.log("The new employee has been added to the databse successfully.")
-                     viewAllEmployees(); // show with new employee added
+                     console.log(redToGreen(str, {interpolation: 'hsv', hsvSpin: 'long'}));
+                     ployees(); // show with new employee added
                   });
                });
             });
@@ -229,7 +256,9 @@ const updateEmployeeRole = () => {
                if(answer.selectedEmployee === `${employee.first_name} ${employee.last_name}`) {employeeId = employee.id;}});
             const sqlQuery = `UPDATE employee SET employee.role_id = ? WHERE employee.id = ?`;
             connection.query(sqlQuery, [newTitleId, employeeId],(error) => { if (error) throw error;
+                  console.log(redToGreen(str, {interpolation: 'hsv', hsvSpin: 'long'}));
                   console.log("Employee role updated.");
+                  console.log(redToGreen(str, {interpolation: 'hsv', hsvSpin: 'long'}));
                   databasePrompt();
                });
          });
@@ -261,12 +290,16 @@ const updateEmployeeManager = () => {
             if (answer.newManager === `${employee.first_name} ${employee.last_name}`) {managerId = employee.id;}
          });
             if (validate.isEqual(answer.selectedEmployee, answer.newManager)) {
-            console.log("IYour manager selection did not work. Please try again.");
+            console.log(redToGreen(str, {interpolation: 'hsv', hsvSpin: 'long'}));
+            console.log("Your manager selection did not work. Please try again.");
+            console.log(redToGreen(str, {interpolation: 'hsv', hsvSpin: 'long'}));
             databasePrompt();
          } else {
             const sqlQuery = `UPDATE employee SET employee.manager_id = ? WHERE employee.id = ?`;
             connection.query(sqlQuery,[managerId, employeeId],(error) => { if (error) throw error;
+            console.log(redToGreen(str, {interpolation: 'hsv', hsvSpin: 'long'}));
             console.log("Employee Manager successfully updated");
+            console.log(redToGreen(str, {interpolation: 'hsv', hsvSpin: 'long'}));
             databasePrompt();
                });
          }
@@ -275,9 +308,14 @@ const updateEmployeeManager = () => {
 };
 //"View all employees",
 const viewAllEmployees = () => {
-   let sqlQuery = `SELECT employee.id, employee.first_name, employee.last_name, role.title, department.department_name AS 'department', role.salary FROM employee, role, department WHERE department.id = role.department_id AND role.id = employee.role_id ORDER BY employee.id`;
+   let sqlQuery = `SELECT employee.id, employee.first_name, employee.last_name, role.title, department.department_name AS 'department', role.salary FROM employee, role, department WHERE department.id = role.department_id AND role.id = employee.role_id ORDER BY employee.id`;//not working
    connection.query(sqlQuery, (error, response) => { if (error) throw error;
+      console.log(``);
+      console.log(``);
+      console.log(redToGreen(str, {interpolation: 'hsv', hsvSpin: 'long'}));
       console.log("Review current Employees:");
+      console.log(redToGreen(str, {interpolation: 'hsv', hsvSpin: 'long'}));
+      console.log(``);
       console.table(response);
       databasePrompt();
    });
@@ -286,8 +324,10 @@ const viewAllEmployees = () => {
 const viewAllDepartments = () => {
    const sqlQuery = `SELECT department.id AS id, department.department_name AS department FROM department`;
    connection.query(sqlQuery, (error, response) => { if (error) throw error;
+      console.log(redToGreen(str, {interpolation: 'hsv', hsvSpin: 'long'}));
       console.log("Review all Departments:");
       console.table(response);
+      console.log(redToGreen(str, {interpolation: 'hsv', hsvSpin: 'long'}));
       databasePrompt();
    });
 };
@@ -296,7 +336,10 @@ const viewAllEmployeeRoles = () => {
    const sqlQuery = `SELECT role.id, role.title, department.department_name AS department FROM role INNER JOIN department ON role.department_id = department.id`;
    connection.query(sqlQuery, (error, response) => { if (error) throw error;
       console.log("Current Employee Roles:");
-      response.forEach((role) => {console.log(role.title);
+      response.forEach((role) => { 
+         console.log(redToGreen(str, {interpolation: 'hsv', hsvSpin: 'long'}));
+         console.log(role.title);
+         console.log(redToGreen(str, {interpolation: 'hsv', hsvSpin: 'long'}));
       });
       databasePrompt();
    });
@@ -306,8 +349,12 @@ const viewAllEmployeesByDepartment = () => {
    const sqlQuery = `SELECT employee.first_name,  employee.last_name, department.department_name AS department FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id ORDER BY department_name`;
    connection.query(sqlQuery, (error, response) =>  {
       if (error) throw error;
+
+      console.log(redToGreen(str, {interpolation: 'hsv', hsvSpin: 'long'}));
       console.log("See employees by Department:");
       console.table(response);
+      console.log(redToGreen(str, {interpolation: 'hsv', hsvSpin: 'long'}));
+      
       databasePrompt();
    });
 };
@@ -331,7 +378,9 @@ const removeEmployee = () => {
          const sqlQuery = `DELETE FROM employee WHERE employee.id = ?`;
          connection.query(sqlQuery, [employeeId], (error) => {
             if (error) throw error;
+            console.log(redToGreen(str, {interpolation: 'hsv', hsvSpin: 'long'}));
             console.log("Employee Successfully Removed");
+            console.log(redToGreen(str, {interpolation: 'hsv', hsvSpin: 'long'}));
             viewAllEmployees();
          });
       });
@@ -355,8 +404,10 @@ const removeRole = () => {
          });
          const sqlQuery = `DELETE FROM role WHERE role.id = ?`;
          connection.query(sqlQuery, [roleId], (error) =>  { if (error) throw error;
+            console.log(redToGreen(str, {interpolation: 'hsv', hsvSpin: 'long'}));
             console.log("Role was successfully removed from the database.");
-            viewAllEmployeeRoles();
+            console.log(redToGreen(str, {interpolation: 'hsv', hsvSpin: 'long'}));
+            ployeeRoles();
          });
       });
   });
@@ -385,7 +436,9 @@ const removeDepartment = () => {
                WHERE department.id = ?`;
          connection.query(sqlQuery, [departmentId], (error) => {
             if(error) throw error;
+            console.log(redToGreen(str, {interpolation: 'hsv', hsvSpin: 'long'}));
             console.log("Selected Department successfully removed from database");
+            console.log(redToGreen(str, {interpolation: 'hsv', hsvSpin: 'long'}));
             viewAllDepartments();
          });
       });
@@ -395,6 +448,8 @@ const viewBudgetsByDepartment = () => {
    let sqlQuery = `SELECT department_id AS id, department.department_name AS department, SUM(salary) AS budget FROM role INNER JOIN department ON role.department_id = department.id GROUP BY role.department_id`;
    connection.query(sqlQuery, (error, response) => {
       if(error) throw error;
+      console.log(redToGreen(str, {interpolation: 'hsv', hsvSpin: 'long'}));
       console.table(response);
+      console.log(redToGreen(str, {interpolation: 'hsv', hsvSpin: 'long'}));
       databasePrompt();
    })}

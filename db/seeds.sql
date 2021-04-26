@@ -52,23 +52,23 @@ INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES 
 -- Employees
 -- -----------------------------------------------------
-("Matt", "H", 10, 1),
-("Derek", "C", 15, 5),
-("Megan", "M", 16, 2),
-("Anna", "Z", 17, 4),
-("Jenny", "B", 18, 4),
-("Sarah", "D", 19, 1),
-("Larry", "H", 4, 1),
-("Anne", "C", 15, 5),
-("Barry", "M", 16, 2),
-("Justin", "Z", 4, 2),
-("Matthew", "B", 18, 4),
-("Meigan", "D", 19, 1),
+("Matt", "Hanner", 10, 1),
+("Derek", "Cool", 15, 5),
+("Megan", "Milli", 16, 2),
+("Anna", "Zanzy", 17, 4),
+("Jenny", "Banner", 18, 4),
+("Sarah", "Donner", 19, 1),
+("Larry", "Hax", 4, 1),
+("Anne", "Cow", 15, 5),
+("Barry", "Moon", 16, 2),
+("Justin", "Zoo", 4, 2),
+("Matthew", "Bae", 18, 4),
+("Meigan", "Dee", 19, 1),
 -- Executive Team 
 -- -----------------------------------------------------
-("Patrick", "K", 10, NULL),
-("Chad", "M", 15, NULL),
-("Brian", "M", 16, NULL),
-("Ari", "Z", 17, NULL),
-("Melissa", "B", 18, NULL),
-("Kristen", "D", 19, NULL);
+("Patrick", "Keene", 10, NULL),
+("Chad", "Millman", 15, NULL),
+("Brian", "Maxon", 16, NULL),
+("Ari", "Zan", 17, NULL),
+("Melissa", "Boon", 18, NULL),
+("Kristen", "Danner", 19, NULL);
