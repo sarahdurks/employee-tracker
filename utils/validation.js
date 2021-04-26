@@ -1,11 +1,8 @@
+var validator = require('validator');
 
 const validate = {
-   checkSame(str1, str2) {
-      if(str1 === str2) return true;
-      console.log("Entries match");
-   },
    checkNumber(num) {
-      if(validaton.isDecimal(num)) return true;
+      if(validator.isDecimal(num)) return true;
       return "Salary format invalid. Please enter format: 50000.00"; // this is the area of concern. Commas and 0 handling
    },
    checkString(str) {
