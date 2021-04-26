@@ -1,12 +1,12 @@
-# employee-tracker
-https://requirejs.org/docs/whyamd.html#purposes
+
+
 ![Frame 62](https://user-images.githubusercontent.com/77648727/114948310-9792c180-9e03-11eb-9af7-3f7bf901ae05.png)
 
 
 # Name
 
 ## SQL Employee Tracker
-A command line application to manage a company's employee database, using Node.js, Inquirer, and MySQL2.
+A command line application to manage a company's employee database, using Node.js, Inquirer, Console.tablle and MySQL2.
 
 #### Built With 🧰
 - Node.js
@@ -54,11 +54,8 @@ A database was created allowing company users to view and modify information abo
 
 - [Console Table NPM](https://www.npmjs.com/package/console.table)
 - [NPM mySQL](https://www.npmjs.com/package/mysql)
+- [Stack Overflow Import/Export 1](https://stackoverflow.com/questions/33589571module-exports-that-include-all-functions-in-a-single-line)
+- [Stack Overflow Import/Export 1](https://stackoverflow.com/questions/31354559/using-node-js-require-vs-es6-import-export?rq=1hello.js)
+- [Mozilla Documentatation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map)
+- [RequirementJS Resources](https://requirejs.org/docs/whyamd.html#purposes)
 
-/*
-https://stackoverflow.com/questions/33589571/module-exports-that-include-all-functions-in-a-single-line
-https://stackoverflow.com/questions/31354559/using-node-js-require-vs-es6-import-export?rq=1hello.js
-
-https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
-
-*/
