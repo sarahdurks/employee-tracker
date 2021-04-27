@@ -6,20 +6,36 @@
 # Name
 
 ## SQL Employee Tracker
-A command line application to manage a company's employee database, using Node.js, Inquirer, Console.tablle and MySQL2.
+A command line application to manage a company's employee database, using Node.js, Inquirer, Console.table and MySQL2.
 
 #### Built With 🧰
 - Node.js
 - Inquirer
 - MySQL2
 - Console.table
-
+#### Built With
+To use: 
+/ clone files
+/ npm i
+/ npm start
+/ follow prompts
 
 ### Work Completed
-A database was created allowing company users to view and modify information about their workforce, covering salary, departments, role types and more.
+A database was created allowing company users to view and modify information about their workforce, covering salary, departments, role types and more in the CLI.
+
+### Still Pending
+- Overall efficiency
+- Async/Await
+- Bonus features like overwriting data that had constraints - had difficulties with - foreign keys/child rows/ things breaking
+- Updating selection menus to have a better user experience (e.g., showing role #s instead of title for update option)
+- Better data validation & Formatting in presentation (e.g., dollars and commas)
+
 #### Visual
 ![12-sql-homework-demo-01](https://user-images.githubusercontent.com/77648727/114947233-982a5880-9e01-11eb-8c56-f3de32b7bfaf.gif)
 
+
+#### Video
+https://drive.google.com/file/d/10L0OugkmrbZm38nLI1rE6iZlz7OD2v3d/view
 
 
    
