@@ -58,4 +58,5 @@ A database was created allowing company users to view and modify information abo
 - [Stack Overflow Import/Export 1](https://stackoverflow.com/questions/31354559/using-node-js-require-vs-es6-import-export?rq=1hello.js)
 - [Mozilla Documentatation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map)
 - [RequirementJS Resources](https://requirejs.org/docs/whyamd.html#purposes)
+- [Error Differences](https://stackoverflow.com/questions/60383852/should-i-use-console-error-or-throw-new-error)
 

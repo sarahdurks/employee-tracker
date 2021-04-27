@@ -56,7 +56,7 @@ const employeeApp = () => {
       "I'm done"]
 
 // =============================================================
-// CHOICE LOGIC BY ACTION TYPE
+// CHOICE LOGIC 
 // =============================================================
    }]).then((responses) => {const {choices} = responses;
       // Add
@@ -266,7 +266,7 @@ const updateEmployeeRole = () => {
                }
             });
             response.forEach((employee) => {
-               if(answer.selectedEmployee === `${employee.first_name} ${employee.last_name}`) {employeeId = employee.id;
+               if(answer.selectedEmployee === (`${employee.first_name} ${employee.last_name}`)) {employeeId = employee.id;
                }
             });
             const sqlQ = `UPDATE employee SET employee.role_id = ? WHERE employee.id = ?`;
@@ -274,7 +274,7 @@ const updateEmployeeRole = () => {
                if(error) throw error;
                console.log(redToGreen(str, {interpolation:'hsv', hsvSpin: 'long'}));
                console.log("Employee role updated.");
-               employeeApp();
+               viewAllEmployees(); 
             });
          });
       });
@@ -297,7 +297,7 @@ const updateEmployeeManager = () => {
       }, {
          name: 'newManager',
          type: "list",
-         message: 'Select the new manager for this emoloyee:',
+         message: 'Select the new manager for this employee:',
          choices: employeeArray
       }]).then((answer) => {
          let employeeId, managerId;
@@ -364,14 +364,20 @@ const viewAllDepartments = () => {
 //  View All Employee Roles
 // =============================================================
 const viewAllEmployeeRoles = () => {
-   const sqlQ = `SELECT role.id, role.title, department.department_name AS department FROM role INNER JOIN department ON role.department_id = department.id`;
+   const sqlQ = `SELECT
+   role.id,
+   role.title AS title,
+   role.salary AS salary,
+   department.department_name AS department
+   FROM role
+   INNER JOIN department on role.department_id=department.id;`;
    connection.query(sqlQ, (error, response) => {
       if(error) throw error;
       // Roles displayed
       // =============================================================
       console.log("Current Employee Roles:");
       console.log(redToGreen(str, {interpolation:'hsv', hsvSpin: 'long'}));
-      response.forEach((role) => {console.log(role.title);});
+      console.table(response);
       employeeApp();
    });
 }
@@ -379,7 +385,7 @@ const viewAllEmployeeRoles = () => {
 //  View Employees By Department
 // =============================================================
 const viewAllEmployeesByDepartment = () => {
-   const sqlQ = `SELECT employee.first_name,  employee.last_name, department.department_name AS department FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id ORDER BY department_name`;
+   const sqlQ = `SELECT employee.id, CONCAT (employee.first_name, " ", employee.last_name) AS name, department.department_name AS department FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id ORDER BY department_name`;
    connection.query(sqlQ, (error, response) => {
       if(error) throw error;
 
