@@ -41,7 +41,7 @@ const employeeApp = () => {
       "Add a new employee", 
       // Update
       "Update employee role", 
-      "Update Employee Manager", 
+      // "Update Employee Manager", 
       // View
       "View all employees", 
       "View all departments", 
@@ -50,8 +50,8 @@ const employeeApp = () => {
       "View Budgets by Department", 
       // Remove
       "Remove employee", 
-      "Remove role", 
-      "Remove Department", 
+      // "Remove role", 
+      // "Remove Department", 
       // Close Application
       "I'm done"]
 
@@ -65,7 +65,7 @@ const employeeApp = () => {
       if(choices === "Add a new employee") {addEmployee();}
       //Update
       if(choices === "Update employee role") {updateEmployeeRole();}
-      if(choices === "Update Employee Manager") {updateEmployeeManager();}
+      // if(choices === "Update Employee Manager") {updateEmployeeManager();}
       // View
       if(choices === "View all employees") {viewAllEmployees();}
       if(choices === "View all departments") {viewAllDepartments();}
@@ -74,7 +74,7 @@ const employeeApp = () => {
       if(choices === "View Budgets by Department") {viewBudgetsByDepartment();}
       // Remove
       if(choices === "Remove employee") {removeEmployee();}
-      if(choices === "Remove role") {removeRole();}
+      // if(choices === "Remove role") {removeRole();}
       if(choices === "Remove Department") {removeDepartment();}
       // Close application
       if(choices === "I'm done") {closeApplication();
@@ -235,20 +235,20 @@ const addEmployee = () => {
 // =============================================================
 
 //  Update Employee Role
+///SELECT
+   //employee.id, CONCAT (employee.first_name, " ", employee.last_name) AS name
 // =============================================================
 const updateEmployeeRole = () => {
-   const sqlQ = `SELECT employee.id, employee.first_name, employee.last_name, role.id AS "role_id" FROM employee, role, department  WHERE department.id = role.department_id AND role.id = employee.role_id`;
+   const sqlQ = `SELECT employee.id, employee.first_name, employee.last_name, role.id FROM employee, role, department  WHERE department.id = role.department_id AND role.id = employee.role_id`;
    connection.query(sqlQ, (error, response) => {
-      if(error) throw error;
+      if (error) throw error;
       let employeeArray = [];
-      response.forEach((employee) => {employeeArray.push(`${employee.first_name} ${employee.last_name}`);
-      });
+      response.forEach((employee) => {employeeArray.push(`${employee.first_name} ${employee.last_name}`);});
       const sqlQ = `SELECT role.id, role.title FROM role`;
       connection.query(sqlQ, (error, response) => {
          if(error) throw error;
          let roleArray = [];
-         response.forEach((role) => {roleArray.push(role.title);
-         });
+         response.forEach((role) => {roleArray.push(role.title);});
          inquirer.prompt([{
             name: 'selectedEmployee',
             type: "list",
@@ -266,7 +266,7 @@ const updateEmployeeRole = () => {
                }
             });
             response.forEach((employee) => {
-               if(answer.selectedEmployee === (`${employee.first_name} ${employee.last_name}`)) {employeeId = employee.id;
+               if(answer.selectedEmployee === `${employee.first_name} ${employee.last_name}`) {employeeId = employee.id;
                }
             });
             const sqlQ = `UPDATE employee SET employee.role_id = ? WHERE employee.id = ?`;
@@ -319,7 +319,7 @@ const updateEmployeeManager = () => {
                // =============================================================
                console.log(redToGreen(str, {interpolation:'hsv', hsvSpin: 'long'}));
                console.log("Employee Manager successfully updated");
-               employeeApp();
+               viewAllEmployees();
             });
          }
       });
@@ -334,7 +334,7 @@ const updateEmployeeManager = () => {
 // =============================================================
 const viewAllEmployees = () => {
    let sqlQ = `SELECT
-   employee.id, CONCAT (employee.first_name, " ", employee.last_name) AS name,role.title AS title, department.department_name AS department, role.salary AS salary, CONCAT(manager.first_name, " " , manager.last_name) AS manager FROM employee LEFT JOIN role on employee.role_id=role.id LEFT JOIN department on role.department_id= department.id LEFT JOIN employee manager on manager.id = employee.manager_id;`; //not working
+   employee.id, CONCAT (employee.first_name, " ", employee.last_name) AS 'Employee Name',role.title AS 'Job Title', department.department_name AS 'Department', role.salary AS 'Salary', CONCAT(manager.first_name, " " , manager.last_name) AS 'Manager' FROM employee LEFT JOIN role on employee.role_id=role.id LEFT JOIN department on role.department_id= department.id LEFT JOIN employee manager on manager.id = employee.manager_id;`; //not working
    connection.query(sqlQ, (error, response) => {
       if(error) throw error;
       console.log(``);
@@ -346,10 +346,10 @@ const viewAllEmployees = () => {
    });
 };
 
-//  View All Departments
+//  View All Departments CONCAT (employee.first_name, " ", employee.last_name) AS name,
 // =============================================================
 const viewAllDepartments = () => {
-   const sqlQ = `SELECT department.id AS id, department.department_name AS department FROM department`;
+   const sqlQ = `SELECT department.id as 'Department ID', department.department_name AS 'Department Name' FROM department`;
    connection.query(sqlQ, (error, response) => {
       if(error) throw error;
       // Departments Displayed
@@ -366,9 +366,9 @@ const viewAllDepartments = () => {
 const viewAllEmployeeRoles = () => {
    const sqlQ = `SELECT
    role.id,
-   role.title AS title,
-   role.salary AS salary,
-   department.department_name AS department
+   role.title AS 'Job Title',
+   role.salary AS 'Salary',
+   department.department_name AS 'Department'
    FROM role
    INNER JOIN department on role.department_id=department.id;`;
    connection.query(sqlQ, (error, response) => {
@@ -385,7 +385,7 @@ const viewAllEmployeeRoles = () => {
 //  View Employees By Department
 // =============================================================
 const viewAllEmployeesByDepartment = () => {
-   const sqlQ = `SELECT employee.id, CONCAT (employee.first_name, " ", employee.last_name) AS name, department.department_name AS department FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id ORDER BY department_name`;
+   const sqlQ = `SELECT employee.id, CONCAT (employee.first_name, " ", employee.last_name) AS 'Employee Name', department.department_name AS 'Department' FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id ORDER BY department_name`;
    connection.query(sqlQ, (error, response) => {
       if(error) throw error;
 
@@ -402,7 +402,7 @@ const viewAllEmployeesByDepartment = () => {
 // View Budget by Department
 // =============================================================
 const viewBudgetsByDepartment = () => {
-   let sqlQ = `SELECT department_id AS id, department.department_name AS department, SUM(salary) AS budget FROM role INNER JOIN department ON role.department_id = department.id GROUP BY role.department_id`;
+   let sqlQ = `SELECT department_id AS 'Department ID', department.department_name AS 'Department', SUM(salary) AS 'Budget' FROM role INNER JOIN department ON role.department_id = department.id GROUP BY role.department_id`;
    connection.query(sqlQ, (error, response) => {
       if(error) throw error;
       // Budgets Displayed.
@@ -451,37 +451,37 @@ const removeEmployee = () => {
    });
 };
 
-// Remove Role
-// =============================================================
-const removeRole = () => {
-   const sqlQ = `SELECT role.id, role.title FROM role`;
-   connection.query(sqlQ, (error, response) => {
-      if(error) throw error;
-      let roleArray = [];
-      response.forEach((role) => {roleArray.push(role.title);
-      });
-      inquirer.prompt([{
-         name: "selectedRole",
-         type: "list",
-         message: "What role would you like to remove?",
-         choices: roleArray
-      }]).then((answer) => {
-         let roleNameMatch;
-         response.forEach((role) => {
-            if(answer.selectedRole === role.title) {roleNameMatch = role.id;}
-         });
-         const sqlQ = `DELETE FROM role WHERE role.id = ?`;
-         connection.query(sqlQ, [roleNameMatch], (error) => {
-            if(error) throw error;
-            // Role Removed.
-            // =============================================================
-            console.log(redToGreen(str, {interpolation:'hsv', hsvSpin: 'long'}));
-            console.log("Role was successfully removed from the database.");
-            EmployeeRoles();
-         });
-      });
-   });
-};
+// // Remove Role
+// // =============================================================
+// const removeRole = () => {
+//    const sqlQ = `SELECT role.id, role.title FROM role`;
+//    connection.query(sqlQ, (error, response) => {
+//       if(error) throw error;
+//       let roleArray = [];
+//       response.forEach((role) => {roleArray.push(role.title);
+//       });
+//       inquirer.prompt([{
+//          name: "selectedRole",
+//          type: "list",
+//          message: "What role would you like to remove?",
+//          choices: roleArray
+//       }]).then((answer) => {
+//          let roleNameMatch;
+//          response.forEach((role) => {
+//             if(answer.selectedRole === role.title) {roleNameMatch = role.id;}
+//          });
+//          const sqlQ = `DELETE FROM role WHERE role.id = ?`;
+//          connection.query(sqlQ, [roleNameMatch], (error) => {
+//             if(error) throw error;
+//             // Role Removed.
+//             // =============================================================
+//             console.log(redToGreen(str, {interpolation:'hsv', hsvSpin: 'long'}));
+//             console.log("Role was successfully removed from the database.");
+//             EmployeeRoles();
+//          });
+//       });
+//    });
+// };
 
 // Remove Departments
 // =============================================================
