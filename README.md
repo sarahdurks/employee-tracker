@@ -13,8 +13,8 @@ A command line application to manage a company's employee database, using Node.j
 - Inquirer
 - MySQL2
 - Console.table
-#### Built With
-To use: 
+
+#### To use: 
 / clone files
 / npm i
 / npm start
